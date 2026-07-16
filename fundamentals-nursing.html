@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fundamentals of Nursing - Nursing Notes Nepal</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+    <h1>🩺 Fundamentals of Nursing</h1>
+    <p>Select Unit & Study Materials</p>
+</header>
+
+
+
+<section class="cards">
+
+
+<a href="unit1-introduction-nursing.html" class="card">
+<h3>Unit 1: Introduction to Nursing and Hospital Nursing</h3>
+</a>
+
+
+<a href="unit2-critical-thinking.html" class="card">
+<h3>Unit 2: Critical Thinking in Nursing Process</h3>
+</a>
+
+
+<a href="unit3-documentation.html" class="card">
+<h3>Unit 3: Documentation and Reporting</h3>
+</a>
+
+
+<a href="unit4-maslow.html" class="card">
+<h3>Unit 4: Maslow's Hierarchy of Needs</h3>
+</a>
+
+
+<a href="unit5-basic-needs.html" class="card">
+<h3>Unit 5: Basic Needs of Client</h3>
+</a>
+
+
+<a href="unit6-vital-signs.html" class="card">
+<h3>Unit 6: Assessment of Vital Signs</h3>
+</a>
+
+
+<a href="unit7-pressure-ulcer.html" class="card">
+<h3>Unit 7: Pressure Ulcer and Wound Care</h3>
+</a>
+
+
+<a href="unit8-infection-prevention.html" class="card">
+<h3>Unit 8: Infection Prevention</h3>
+</a>
+
+
+<a href="unit9-hot-cold-application.html" class="card">
+<h3>Unit 9: Hot and Cold Application</h3>
+</a>
+
+
+<a href="unit10-operative-care.html" class="card">
+<h3>Unit 10: Pre and Post-Operative Nursing Care</h3>
+</a>
+
+
+<a href="unit11-medication.html" class="card">
+<h3>Unit 11: Medication Administration</h3>
+</a>
+
+
+<a href="unit12-first-aid.html" class="card">
+<h3>Unit 12: First Aid</h3>
+</a>
+
+
+<a href="unit13-loss-grieving.html" class="card">
+<h3>Unit 13: Loss, Death and Grieving</h3>
+</a>
+
+
+</section>
+
+
+
+<!-- Firebase uploaded notes will appear here -->
+
+<section>
+
+<h2>📚 Uploaded Study Materials</h2>
+
+
+<div id="notesList" class="cards">
+
+<p>Loading notes...</p>
+
+</div>
+
+
+</section>
+
+
+
+
+<footer>
+
+<p>© Nursing Notes Nepal</p>
+
+</footer>
+
+
+
+
+<script type="module">
+
+
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import { getFirestore, collection, getDocs } from 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+// Paste your Firebase config here
+
+const firebaseConfig = {
+
+apiKey: "YOUR_API_KEY",
+
+authDomain: "YOUR_AUTH_DOMAIN",
+
+projectId: "YOUR_PROJECT_ID",
+
+storageBucket: "YOUR_STORAGE_BUCKET",
+
+messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+
+appId: "YOUR_APP_ID"
+
+};
+
+
+
+const app = initializeApp(firebaseConfig);
+
+
+const db = getFirestore(app);
+
+
+
+const notesList = document.getElementById("notesList");
+
+
+
+const snapshot = await getDocs(collection(db,"notes"));
+
+
+
+notesList.innerHTML = "";
+
+
+
+snapshot.forEach((doc)=>{
+
+
+const data = doc.data();
+
+
+
+notesList.innerHTML += `
+
+
+<a href="${data.fileURL}" 
+class="card" 
+target="_blank">
+
+
+<h3>📄 ${data.title}</h3>
+
+
+<p>
+${data.subject}
+</p>
+
+
+<p>
+Year: ${data.year}
+</p>
+
+
+</a>
+
+
+
+`;
+
+
+});
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

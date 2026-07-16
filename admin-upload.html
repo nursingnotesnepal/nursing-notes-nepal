@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Upload - Nursing Notes Nepal</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>📤 Nursing Notes Upload</h1>
+
+<p>Admin Panel</p>
+
+</header>
+
+
+
+<section class="upload-box">
+
+
+<h2>Upload Unit PDF</h2>
+
+
+<label>Year</label>
+
+<select id="year">
+
+<option>First Year</option>
+<option>Second Year</option>
+<option>Third Year</option>
+<option>Fourth Year</option>
+
+</select>
+
+
+<br><br>
+
+
+<label>Subject</label>
+
+<input id="subject"
+value="Fundamentals of Nursing">
+
+
+<br><br>
+
+
+
+<label>Unit</label>
+
+<select id="unit">
+
+<option>Unit 1: Introduction to Nursing and Hospital Nursing</option>
+<option>Unit 2: Critical Thinking in Nursing Process</option>
+<option>Unit 3: Documentation and Reporting</option>
+<option>Unit 4: Maslow's Hierarchy of Needs</option>
+<option>Unit 5: Basic Needs of Client</option>
+<option>Unit 6: Assessment of Vital Signs</option>
+<option>Unit 7: Pressure Ulcer and Wound Care</option>
+<option>Unit 8: Infection Prevention</option>
+<option>Unit 9: Hot and Cold Application</option>
+<option>Unit 10: Pre and Post-Operative Nursing Care</option>
+<option>Unit 11: Medication Administration</option>
+<option>Unit 12: First Aid</option>
+<option>Unit 13: Loss, Death and Grieving</option>
+
+</select>
+
+
+<br><br>
+
+
+
+<label>Select PDF</label>
+
+<input type="file" 
+id="pdfFile"
+accept="application/pdf">
+
+
+<br><br>
+
+
+<button id="uploadBtn">
+Upload PDF
+</button>
+
+
+<p id="message"></p>
+
+
+</section>
+
+
+
+
+<hr>
+
+
+
+<section>
+
+
+<h2>📚 Uploaded PDFs</h2>
+
+
+<div id="pdfList">
+
+Loading...
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<script type="module">
+
+
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+
+import {
+
+getStorage,
+
+ref,
+
+uploadBytes,
+
+getDownloadURL,
+
+deleteObject
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+
+
+import {
+
+getFirestore,
+
+collection,
+
+addDoc,
+
+getDocs,
+
+deleteDoc,
+
+doc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+
+// PASTE YOUR FIREBASE CONFIG HERE
+
+
+const firebaseConfig = {
+
+
+apiKey: "YOUR_API_KEY",
+
+authDomain: "YOUR_AUTH_DOMAIN",
+
+projectId: "YOUR_PROJECT_ID",
+
+storageBucket: "YOUR_STORAGE_BUCKET",
+
+messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+
+appId: "YOUR_APP_ID"
+
+
+};
+
+
+
+
+
+const app = initializeApp(firebaseConfig);
+
+
+const storage = getStorage(app);
+
+
+const db = getFirestore(app);
+
+
+
+
+
+// UPLOAD PDF
+
+
+document.getElementById("uploadBtn")
+.onclick = async()=>{
+
+
+const year =
+document.getElementById("year").value;
+
+
+const subject =
+document.getElementById("subject").value;
+
+
+const unit =
+document.getElementById("unit").value;
+
+
+const file =
+document.getElementById("pdfFile").files[0];
+
+
+
+if(!file){
+
+alert("Select PDF first");
+
+return;
+
+}
+
+
+
+if(file.type !== "application/pdf"){
+
+alert("Only PDF allowed");
+
+return;
+
+}
+
+
+
+try{
+
+
+document.getElementById("message").innerHTML=
+"Uploading...";
+
+
+
+const storageRef =
+ref(storage,
+"Fundamentals/"+file.name);
+
+
+
+await uploadBytes(storageRef,file);
+
+
+
+const url =
+await getDownloadURL(storageRef);
+
+
+
+await addDoc(
+collection(db,"notes"),
+{
+
+title:unit,
+
+year:year,
+
+subject:subject,
+
+fileURL:url,
+
+storagePath:"Fundamentals/"+file.name,
+
+type:"pdf"
+
+}
+
+);
+
+
+
+document.getElementById("message").innerHTML=
+"✅ Upload Complete";
+
+
+loadPDFs();
+
+
+}
+
+
+catch(error){
+
+console.log(error);
+
+alert(error.message);
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+// SHOW PDF LIST
+
+
+async function loadPDFs(){
+
+
+const list =
+document.getElementById("pdfList");
+
+
+list.innerHTML="";
+
+
+const snapshot =
+await getDocs(collection(db,"notes"));
+
+
+
+snapshot.forEach((item)=>{
+
+
+const data=item.data();
+
+
+
+list.innerHTML +=`
+
+
+<div class="card">
+
+
+<h3>📄 ${data.title}</h3>
+
+<p>${data.subject}</p>
+
+
+<button onclick="deletePDF(
+'${item.id}',
+'${data.storagePath}'
+)">
+
+Delete
+
+</button>
+
+
+</div>
+
+
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+loadPDFs();
+
+
+
+
+
+
+
+// DELETE FUNCTION
+
+
+window.deletePDF =
+async function(id,path){
+
+
+
+let confirmDelete =
+confirm("Delete this PDF?");
+
+
+
+if(confirmDelete){
+
+
+
+try{
+
+
+
+await deleteDoc(
+doc(db,"notes",id)
+);
+
+
+
+const fileRef =
+ref(storage,path);
+
+
+
+await deleteObject(fileRef);
+
+
+
+alert("PDF Deleted");
+
+
+loadPDFs();
+
+
+
+}
+
+
+catch(error){
+
+console.log(error);
+
+alert("Delete failed");
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

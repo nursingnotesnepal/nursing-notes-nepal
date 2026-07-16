@@ -1,0 +1,168 @@
+/* General Style */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Poppins", Arial, sans-serif;
+    background: #f4f9ff;
+    color: #333;
+}
+
+
+/* Header */
+
+header {
+    background: linear-gradient(135deg, #0077b6, #023e8a);
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+header h1 {
+    font-size: 45px;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+header p {
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+
+/* Welcome Section */
+
+.welcome {
+    text-align: center;
+    padding: 45px 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.welcome h2 {
+    color: #0077b6;
+    font-size: 34px;
+}
+
+.welcome p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+
+/* Cards Section */
+
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    padding: 40px 20px;
+}
+
+
+.card {
+    background: white;
+    width: 270px;
+    min-height: 180px;
+    padding: 30px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    border-radius: 18px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    transition: 0.3s ease;
+}
+
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    background: #eaf7ff;
+}
+
+
+.card h3 {
+    color: #0077b6;
+    font-size: 22px;
+}
+
+
+.card p {
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+
+
+/* Footer */
+
+footer {
+    background: #023e8a;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    margin-top: 40px;
+    font-size: 16px;
+}
+
+
+
+/* Mobile Responsive */
+
+@media(max-width:600px){
+
+    header h1 {
+        font-size: 32px;
+    }
+
+    header p {
+        font-size: 18px;
+    }
+
+
+    .welcome h2 {
+        font-size: 26px;
+    }
+
+
+    .card {
+        width: 90%;
+    }
+
+}.mcq-box {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+
+.mcq-box h2 {
+    font-size: 28px;
+    line-height: 1.5;
+}
+
+
+#options button {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+#next-btn {
+    width: 200px;
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 10px;
+}

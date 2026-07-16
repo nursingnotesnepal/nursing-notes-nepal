@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit 1 Nursing MCQs - Nursing Notes Nepal</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>🩺 Unit 1: Introduction to Nursing</h1>
+
+<p>Fundamentals of Nursing - Free Practice MCQs</p>
+
+</header>
+
+
+
+
+<section class="mcq-box">
+
+
+<h2 id="question">
+Question loading...
+</h2>
+
+
+<div id="options"></div>
+
+
+<button id="next-btn">
+Next Question
+</button>
+
+
+<h3 id="result"></h3>
+
+
+</section>
+
+
+
+
+
+<footer>
+
+<p>
+🩺 Nursing Notes Nepal
+<br>
+By Shiksha Tandan Chhetri
+</p>
+
+</footer>
+
+
+
+
+
+<script>
+
+
+const questions = [
+
+{
+question:"Who is known as the founder of modern nursing?",
+options:[
+"Florence Nightingale",
+"Virginia Henderson",
+"Dorothea Orem",
+"Hildegard Peplau"
+],
+answer:"Florence Nightingale"
+},
+
+
+{
+question:"The primary goal of nursing is to:",
+options:[
+"Provide medication only",
+"Promote health and prevent illness",
+"Diagnose diseases",
+"Perform surgery"
+],
+answer:"Promote health and prevent illness"
+},
+
+
+{
+question:"The first step of nursing process is:",
+options:[
+"Planning",
+"Assessment",
+"Evaluation",
+"Implementation"
+],
+answer:"Assessment"
+},
+
+
+{
+question:"A person who receives nursing care is called:",
+options:[
+"Doctor",
+"Client/Patient",
+"Visitor",
+"Caregiver"
+],
+answer:"Client/Patient"
+},
+
+
+{
+question:"The Nightingale theory focuses mainly on:",
+options:[
+"Environmental factors",
+"Medication therapy",
+"Surgical procedures",
+"Genetics"
+],
+answer:"Environmental factors"
+},
+
+
+{
+question:"The basic purpose of communication in nursing is:",
+options:[
+"To argue with patients",
+"To build therapeutic relationship",
+"To give orders",
+"To save time"
+],
+answer:"To build therapeutic relationship"
+},
+
+
+{
+question:"Nursing is considered as both:",
+options:[
+"Art and Science",
+"Business and Trade",
+"Medicine only",
+"Technology only"
+],
+answer:"Art and Science"
+},
+
+
+{
+question:"Which is an important role of a nurse?",
+options:[
+"Patient advocate",
+"Judge",
+"Law maker",
+"Engineer"
+],
+answer:"Patient advocate"
+},
+
+
+{
+question:"The nursing process is commonly abbreviated as:",
+options:[
+"SOAP",
+"ADPIE",
+"ABC",
+"CPR"
+],
+answer:"ADPIE"
+},
+
+
+{
+question:"Professional nursing practice requires:",
+options:[
+"Knowledge and skills",
+"Only experience",
+"Only theory",
+"Only communication"
+],
+answer:"Knowledge and skills"
+}
+
+];
+
+
+
+let currentQuestion = 0;
+
+let score = 0;
+
+
+
+const questionBox = document.getElementById("question");
+
+const optionsBox = document.getElementById("options");
+
+const nextButton = document.getElementById("next-btn");
+
+const resultBox = document.getElementById("result");
+
+
+
+
+function loadQuestion(){
+
+
+let current = questions[currentQuestion];
+
+
+questionBox.innerHTML =
+(currentQuestion+1)+". "+current.question;
+
+
+optionsBox.innerHTML="";
+
+
+current.options.forEach(option=>{
+
+
+let button=document.createElement("button");
+
+
+button.innerHTML=option;
+
+
+button.onclick=function(){
+
+
+let allButtons=document.querySelectorAll("#options button");
+
+
+allButtons.forEach(btn=>{
+
+btn.disabled=true;
+
+});
+
+
+if(option===current.answer){
+
+score++;
+
+button.style.background="green";
+
+}
+
+else{
+
+button.style.background="red";
+
+}
+
+
+nextButton.disabled=false;
+
+
+};
+
+
+optionsBox.appendChild(button);
+
+
+});
+
+
+nextButton.disabled=true;
+
+
+}
+
+
+
+
+
+nextButton.onclick=function(){
+
+
+currentQuestion++;
+
+
+if(currentQuestion < questions.length){
+
+loadQuestion();
+
+}
+
+else{
+
+
+questionBox.innerHTML="🎉 Quiz Completed!";
+
+
+optionsBox.innerHTML="";
+
+
+resultBox.innerHTML=
+
+"Your Score: "+score+"/"+questions.length;
+
+
+nextButton.innerHTML="Restart Quiz";
+
+
+nextButton.disabled=false;
+
+
+nextButton.onclick=function(){
+
+location.reload();
+
+};
+
+
+}
+
+
+}
+
+
+
+
+
+loadQuestion();
+
+
+</script>
+
+
+</body>
+
+</html>
